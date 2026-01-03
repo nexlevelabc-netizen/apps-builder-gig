@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kay's Barbers - Book Your Appointment Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, transparent 49%, rgba(0,0,0,0.02) 49%, rgba(0,0,0,0.02) 51%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, rgba(0,0,0,0.02) 49%, rgba(0,0,0,0.02) 51%, transparent 51%);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #d4af37;
+        }
+
+        .header-cta {
+            background: #d4af37;
+            color: #1a1a1a;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .header-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .hero {
+            background: white;
+            padding: 80px 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
+
+        .hero .highlight {
+            color: #d4af37;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: #666;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .app-preview {
+            margin: 40px auto 50px;
+            max-width: 500px;
+        }
+
+        .app-preview img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 8px solid white;
+        }
+
+        .app-preview p {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: white;
+            padding: 20px 50px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .how-it-works {
+            padding: 80px 20px;
+            background: #fafafa;
+            margin-top: 40px;
+            border-radius: 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .step {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .step-icon {
+            font-size: 3.5rem;
+            margin: 20px 0;
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .step p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .services {
+            padding: 80px 20px;
+            background: white;
+            margin-top: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: #fafafa;
+            padding: 35px 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            border-color: #d4af37;
+            background: white;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .service-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #d4af37;
+            margin: 15px 0;
+        }
+
+        .service-duration {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .booking-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            margin-top: 40px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .booking-section .section-title {
+            color: white;
+        }
+
+        .booking-form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            font-family: inherit;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .policy-box {
+            background: #fff9e6;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .policy-box h4 {
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .policy-box ul {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .policy-box li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: start;
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 4px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .trust-section {
+            padding: 60px 20px;
+            background: white;
+            margin-top: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .trust-badge {
+            text-align: center;
+        }
+
+        .trust-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+
+        .trust-badge h3 {
+            font-size: 1.1rem;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .trust-badge p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .social-proof {
+            padding: 60px 20px;
+            background: #fafafa;
+            margin-top: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #d4af37;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 50px 20px 30px;
+            margin-top: 40px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .footer-item {
+            text-align: center;
+        }
+
+        .footer-item h4 {
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .footer-item p {
+            color: #999;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            margin: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .modal-content p {
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .modal-close {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: #d4af37;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .booking-form-container {
+                padding: 30px 20px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .stats {
+                gap: 40px;
+            }
+
+            .trust-badges {
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Kay's <span>Barbers</span></div>
+                <a href="#booking" class="header-cta">Book Now</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Your Next <span class="highlight">Fresh Cut</span><br>Is Just a Tap Away</h1>
+            <p>Book your appointment in 60 seconds. No phone calls. No waiting. Just show up and look sharp.</p>
+            <!-- App Preview Image -->
+            <div style="margin: 40px auto 50px; max-width: 500px;">
+                <img src="barbers app.png" alt="Barber Booking App" style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); border: 8px solid white;">
+                <p style="text-align: center; margin-top: 15px; font-size: 0.95rem; color: #666; font-style: italic;">
+                    Book appointments directly from your phone - simple, fast, and convenient
+                </p>
+            </div>
+
+          <a href="#booking" class="hero-cta">Book Your Trim Now →</a>
+        </section>
+
+        <section class="how-it-works">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📱</div>
+                    <h3>Book in Seconds</h3>
+                    <p>Choose your service, pick your time, and confirm. Done in under a minute.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">✅</div>
+                    <h3>Get Instant Confirmation</h3>
+                    <p>Receive immediate confirmation and automatic reminders before your appointment.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">✂️</div>
+                    <h3>Show Up & Get Sharp</h3>
+                    <p>Walk in at your scheduled time. No waiting. Just a fresh cut from our expert barbers.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="services">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Classic Cut</h3>
+                    <div class="service-price">£25</div>
+                    <div class="service-duration">30 minutes</div>
+                </div>
+                <div class="service-card">
+                    <h3>Fade</h3>
+                    <div class="service-price">£30</div>
+                    <div class="service-duration">40 minutes</div>
+                </div>
+                <div class="service-card">
+                    <h3>Beard Trim</h3>
+                    <div class="service-price">£15</div>
+                    <div class="service-duration">20 minutes</div>
+                </div>
+                <div class="service-card">
+                    <h3>Cut + Beard</h3>
+                    <div class="service-price">£38</div>
+                    <div class="service-duration">50 minutes</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="booking-section" id="booking">
+            <h2 class="section-title">Book Your Appointment</h2>
+            <div class="booking-form-container">
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Smith" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Mobile Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="07123 456789" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="postcode">Postcode</label>
+                        <input type="text" id="postcode" name="postcode" placeholder="RM17 5DD" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="service">Select Service</label>
+                        <select id="service" name="service" required>
+                            <option value="">Choose a service...</option>
+                            <option value="classic">Classic Cut - £25 (30 min)</option>
+                            <option value="fade">Fade - £30 (40 min)</option>
+                            <option value="beard">Beard Trim - £15 (20 min)</option>
+                            <option value="combo">Cut + Beard - £38 (50 min)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Preferred Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="time">Preferred Time</label>
+                        <select id="time" name="time" required>
+                            <option value="">Choose a time...</option>
+                            <option value="09:00">9:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                            <option value="18:00">6:00 PM</option>
+                        </select>
+                    </div>
+
+                    <div class="policy-box">
+                        <h4>⚠️ Cancellation Policy</h4>
+                        <ul>
+                            <li><strong>Free cancellation:</strong> Up to 24 hours before your appointment</li>
+                            <li><strong>Late cancellation:</strong> £10 fee if cancelled within 24 hours</li>
+                            <li><strong>No-shows:</strong> Full service charge (£25-£38) will be applied</li>
+                            <li><strong>Rescheduling:</strong> Free if done 24+ hours in advance</li>
+                        </ul>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agree" name="agree" required>
+                        <label for="agree">I understand and agree to the cancellation policy and booking terms</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Confirm Booking ✂️
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section class="trust-section">
+            <h2 class="section-title">Why Book With Us?</h2>
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <div class="trust-icon">🏆</div>
+                    <h3>Expert Barbers</h3>
+                    <p>Licensed professionals with 10+ years experience</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-icon">⏱️</div>
+                    <h3>On-Time Guarantee</h3>
+                    <p>Your time is valued. We run on schedule.</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-icon">💯</div>
+                    <h3>Satisfaction Guaranteed</h3>
+                    <p>Not happy? We'll make it right.</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-icon">🔒</div>
+                    <h3>Safe & Clean</h3>
+                    <p>Sanitised tools and equipment every time</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-proof">
+            <h2 class="section-title">Trusted by the Community</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">4.9★</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Return Rate</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-item">
+                    <h4>Location</h4>
+                    <p>London Road<br>Grays, RM17 5DD<br>Essex, England<br>United Kingdom</p>
+                </div>
+                <div class="footer-item">
+                    <h4>Hours</h4>
+                    <p>Mon-Fri: 9AM - 8PM<br>Sat: 9AM - 6PM<br>Sun: 10AM - 4PM</p>
+                </div>
+                <div class="footer-item">
+                    <h4>Contact</h4>
+                    <p>Phone: 01375 375566</p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2024 Kay's Barbers All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">✅</div>
+            <h2>Booking Confirmed!</h2>
+            <p><strong>Thank you for booking with Kay's Barbers</strong></p>
+            <p>You'll receive a confirmation text message shortly with all the details.</p>
+            <p>We'll also send you a reminder 24 hours before your appointment.</p>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #999;">
+                Remember: Free cancellation up to 24 hours before your appointment.
+            </p>
+            <button class="modal-close" onclick="closeModal()">Got It!</button>
+        </div>
+    </div>
+
+    <script>
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                postcode: document.getElementById('postcode').value,
+                service: document.getElementById('service').options[document.getElementById('service').selectedIndex].text,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').options[document.getElementById('time').selectedIndex].text,
+                agreedToPolicy: document.getElementById('agree').checked,
+                timestamp: new Date().toISOString()
+            };
+            
+            console.log('New Booking:', formData);
+            
+            document.getElementById('successModal').classList.add('show');
+            this.reset();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('show');
+        }
+
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.getElementById('agree').addEventListener('change', function() {
+            document.getElementById('submitBtn').disabled = !this.checked;
+        });
+
+        document.getElementById('submitBtn').disabled = true;
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
