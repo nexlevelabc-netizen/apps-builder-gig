@@ -1,0 +1,27 @@
+```json
+{
+  "name": "kays-barbers-functions",
+  "version": "1.0.0",
+  "dependencies": {
+    "twilio": "^5.0.0"
+  }
+}
+```
+
+- Click "Commit new file"
+
+**4. Create netlify.toml config:**
+- Click "Add file" → "Create new file"
+- Filename: `netlify.toml`
+- Paste:
+
+```toml
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
