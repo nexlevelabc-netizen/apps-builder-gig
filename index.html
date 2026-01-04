@@ -836,7 +836,8 @@
         const today = new Date().toISOString().split('T')[0];
         dateInput.setAttribute('min', today);
 
-    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+    ```javascript
+document.getElementById('bookingForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const submitBtn = document.getElementById('submitBtn');
@@ -854,6 +855,10 @@
             }
         });
 
+        console.log('Response status:', response.status);
+        const responseData = await response.json();
+        console.log('Response data:', responseData);
+
         if (response.ok) {
             document.getElementById('successModal').classList.add('show');
             this.reset();
@@ -861,15 +866,20 @@
             submitBtn.textContent = 'Confirm Booking ✂️';
             window.scrollTo({top: 0, behavior: 'smooth'});
         } else {
-            throw new Error('Form submission failed');
+            console.error('Error response:', responseData);
+            alert('Booking failed: ' + (responseData.error || 'Unknown error. Please call us at 01375 375566'));
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Confirm Booking ✂️';
         }
     } catch (error) {
+        console.error('Catch error:', error);
         alert('Booking failed. Please try again or call us at 01375 375566');
         submitBtn.disabled = false;
         submitBtn.textContent = 'Confirm Booking ✂️';
     }
 });
 ```
+
         function closeModal() {
             document.getElementById('successModal').classList.remove('show');
         }
@@ -910,3 +920,4 @@
 
 </body>
 </html>
+
